@@ -10,10 +10,17 @@ function AddUser(props) {
   const addUserHandler = function (event) {
     event.preventDefault();
 
-    console.log(username, age);
-
+    // Reset
     setUsername("");
     setAge("");
+
+    // Gaurd Clause
+    if (!username.trim() || !age.trim() || +age < 0) {
+      console.log("Invalid Input");
+      return;
+    }
+
+    console.log(username, age);
   };
 
   const usernameChangeHandler = function (event) {
