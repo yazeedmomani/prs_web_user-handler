@@ -7,6 +7,7 @@ import ErrorModal from "../UI/ErrorModal";
 function AddUser(props) {
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
+  const [error, setError] = useState("");
 
   const addUserHandler = function (event) {
     event.preventDefault();
@@ -15,9 +16,20 @@ function AddUser(props) {
     setUsername("");
     setAge("");
 
-    // Gaurd Clause
-    if (!username.trim() || !age.trim() || +age < 0) {
-      console.log("Invalid Input");
+    // Errors
+    if (!username.trim() || !age.trim()) {
+      setError({
+        title: "Invalid input",
+        message: "Please enter a valid name and age (non-empty values)",
+      });
+      return;
+    }
+
+    if (+age < 0) {
+      setError({
+        title: "Invalid age",
+        message: "Please enter a valid age ( > 0 )",
+      });
       return;
     }
 
@@ -33,25 +45,33 @@ function AddUser(props) {
   };
 
   return (
-    <Card className={classes.input}>
-      <form onSubmit={addUserHandler}>
-        <label htmlFor="username">username</label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          onChange={usernameChangeHandler}
+    <div>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
         />
-        <label htmlFor="age">Age (Years)</label>
-        <input
-          id="age"
-          type="number"
-          value={age}
-          onChange={ageChangeHandler}
-        />
-        <Button type="submit">Add User</Button>
-      </form>
-    </Card>
+      )}
+      <Card className={classes.input}>
+        <form onSubmit={addUserHandler}>
+          <label htmlFor="username">username</label>
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={usernameChangeHandler}
+          />
+          <label htmlFor="age">Age (Years)</label>
+          <input
+            id="age"
+            type="number"
+            value={age}
+            onChange={ageChangeHandler}
+          />
+          <Button type="submit">Add User</Button>
+        </form>
+      </Card>
+    </div>
   );
 }
 
