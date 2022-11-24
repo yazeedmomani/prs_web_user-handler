@@ -20,7 +20,7 @@ function AddUser(props) {
       return;
     }
 
-    console.log(username, age);
+    props.submitEvent(username, age);
   };
 
   const usernameChangeHandler = function (event) {
